@@ -1,0 +1,180 @@
+<html>
+<head>
+<title>Local Weather</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width" />
+<!-- Bootstrap -->  
+<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Google fonts  -->
+<link href='https://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+<!-- custom css -->
+<link href="assets/css/weather.css" rel="stylesheet">
+<link href="assets/plugins/bxslider/dist/jquery.bxslider.css" rel="stylesheet" />
+
+<!-- fontawesome icons -->
+<link href="assets/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/animate.css/animate.min.css">
+<link rel="shortcut icon" type="image/png" href="assets/images/favicon.png"/>
+<link rel="shortcut icon" type="image/png" href="http://eg.com/favicon.png"/>
+</head>
+<body>
+
+<div class="container">
+ <h2 class="text-center title">Local Weather App </h2>
+ <br>
+ <br>
+ <div class="row">
+  <div class="col-md-4 col-md-offset-4">
+    <h4 class="text-center temp"></h4>
+  </div>
+ </div>
+ <br>
+ 
+  <div class="col-md-8 col-md-offset-2 weather-group">
+    <div class="panel panel-default col-md-3">
+      <div class="panel-body place">
+       
+      </div>
+    </div>
+    <div class="col-md-1">
+    </div>
+    <div class="panel panel-default col-md-3">
+       <div class="panel-body desc">
+         
+      </div>
+    </div>
+     <div class="col-md-1">
+    </div>
+    <div class="panel panel-default col-md-3">
+        <div class="panel-body wind">
+         
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- BOOTSTRAP CORE JAVASCRIPT
+Placed at the bottom for loading pages faster-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/plugins/bxslider/dist/jquery.bxslider.min.js"></script>
+<!-- bxSlider CSS file -->
+
+<!-- <script src="assets/js/jquery-2.1.1.min.js"></script>
+ --><script src="assets/js/main.js"></script>
+<script>
+
+$(document).ready(function(){
+getLocation();
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position){
+        var lat=position.coords.latitude;
+        var long= position.coords.longitude;
+        console.log(lat+'<br>'+long);
+
+        $.ajax({
+          type:'GET',
+          url:'http://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+long,
+          data:{appid:'a17da779af2d024d2875b5325150a532'},
+          dataType:'json',
+          success: function(response, status) {
+            console.log(response);
+            var temp = response.main['temp'];
+            var tempF= Math.round((9/5)*(temp-273)+32);
+            console.log(tempF);
+            var desc =response.weather[0].description;
+            var icon = response.weather[0].icon;
+            var place = response.name;
+            var wind = response.wind['speed'];
+            var country = response.sys['country'];
+            console.log(desc+" "+icon+" "+name+" "+wind);
+
+
+            $('.temp').html('<img src="http://openweathermap.org/img/w/'+icon+'.png"> '+tempF+' F');
+            $('.place').text(place+' ,'+country);
+            $('.desc').text(desc);
+            $('.wind').text(wind+' knots');
+            $('.weather-group').css('opacity','100');
+
+
+
+            if(icon=='01d'|| icon=='01n') {
+               $('body').css('background','url("https://images.unsplash.com/photo-1445246653764-8a9e9cac6212?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=844&q=80&cs=tinysrgb")');
+               $('body').css('background-size','cover');
+            }
+            else
+            if(icon=='02d' || icon=='02n') {
+                 $('body').css('background','url("https://images.unsplash.com/photo-1418154789672-7414683a8281?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb")');
+               $('body').css('background-size','cover');
+            }
+            else 
+              if(icon=='03d'|| icon=='03n'){
+                     $('body').css('background','url("https://images.unsplash.com/photo-1466520394080-bc8561035680?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=997&q=80&cs=tinysrgb")');
+               $('body').css('background-size','cover');
+              }
+               else 
+              if(icon=='04d'|| icon=='04n'){
+                     $('body').css('background','url("https://images.unsplash.com/photo-1453120566849-be97281a59ae?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb")');
+               $('body').css('background-size','cover');
+              }
+             else 
+              if(icon=='09d'|| icon=='09n'){
+                     $('body').css('background','url("https://images.unsplash.com/photo-1432836431433-925d3cc0a5cd?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb")');
+               $('body').css('background-size','cover');
+              }
+                  else 
+              if(icon=='10d'|| icon=='10n'){
+                     $('body').css('background','url("https://images.unsplash.com/photo-1437624155766-b64bf17eb2ce?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb")');
+               $('body').css('background-size','cover');
+              }
+
+              else 
+              if(icon=='11d'|| icon=='11n'){
+                     $('body').css('background','url("https://images.unsplash.com/photo-1447829172150-e5deb8972256?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=994&q=80&cs=tinysrgb")');
+               $('body').css('background-size','cover');
+              }
+               else 
+              if(icon=='13d'|| icon=='13n'){
+                     $('body').css('background','url("https://images.unsplash.com/photo-1445366526762-3646e5bf3beb?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb")');
+               $('body').css('background-size','cover');
+              }
+              else 
+              if(icon=='50d'|| icon=='50n'){
+                     $('body').css('background','url("https://images.unsplash.com/photo-1467087027365-0850cec5d188?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=1002&q=80&cs=tinysrgb")');
+               $('body').css('background-size','cover');
+              }
+
+
+
+            $('.temp').click(function(){
+             var celcius= Math.round((tempF-32)*(5/9));
+             $('.temp').html('<img src="http://openweathermap.org/img/w/'+icon+'.png"> '+celcius+' C');
+              });
+          }
+        });
+
+
+      });
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
+}
+
+});
+
+// function showPosition(position) {
+//     x.innerHTML = "Latitude: " + position.coords.latitude +
+//     "<br>Longitude: " + position.coords.longitude;
+// }
+</script>
+
+
+
+ </body>
